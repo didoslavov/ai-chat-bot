@@ -47,11 +47,11 @@ const config: Config = {
           "scrollbar-width": "none",
         },
         ".blur-left": {
-          "mask-image": "linear-gradient(to left, black 70%, transparent 100%)",
+          "mask-image": "linear-gradient(to left, black 90%, transparent 100%)",
         },
         ".blur-right": {
           "mask-image":
-            "linear-gradient(to right, black 70%, transparent 100%)",
+            "linear-gradient(to right, black 90%, transparent 100%)",
         },
       };
       addUtilities(newUtilities);

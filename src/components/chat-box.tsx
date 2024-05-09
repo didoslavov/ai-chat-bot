@@ -9,6 +9,19 @@ import { useEffect, useRef, useState } from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
 import TypingIndicator from "./typing-indicator";
 
+const defaultMessages: IMessage[] = [
+  {
+    id: Date.now().toString(),
+    role: "assistant",
+    content: "Hey there, my name is Chatty!",
+  },
+  {
+    id: (Date.now() + 1000).toString(),
+    role: "assistant",
+    content: "How may I help you today?",
+  },
+];
+
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
@@ -26,8 +39,8 @@ export default function Home() {
     isLoading,
     setInput,
   } = useChat({
-    api: "/api/assistant/messages",
-    initialMessages: localMessages,
+    api: "/api/assistant/reply",
+    initialMessages: localMessages.length ? localMessages : defaultMessages,
   });
 
   const onSuggestionClick = (s: string) => {

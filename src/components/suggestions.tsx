@@ -23,8 +23,8 @@ function Suggestions({
 
   useScrollBlur(scrollContainer);
 
+  // This workround is to prevent the suggestions from being fetched multiple times when the message changes
   useEffect(() => {
-    // This workround is to prevent the suggestions from being fetched multiple times when the message changes
     if (!prerendered) {
       fetchSuggestions(message).then((data) => {
         setSuggestions(data.suggestions[0].split(" | "));
