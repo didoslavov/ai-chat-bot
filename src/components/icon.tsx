@@ -2,7 +2,7 @@ import Image from "next/image";
 import imgIcon from "/public/img-icon.png";
 import micIcon from "/public/mic-icon.png";
 import sendIcon from "/public/send-icon.png";
-import { IconType } from "@/types/iconType";
+import { IconType } from "@/types/icon-type";
 
 const icons = {
   img: imgIcon,
