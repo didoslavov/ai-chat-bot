@@ -27,7 +27,7 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
-  const { handleClick, text } = useRecordVoice();
+  const { handleClick, text, isRecording } = useRecordVoice();
   const [localMessages, setLocalMessages] = useLocalStorage<IMessage[]>(
     "chatMessages",
     [],
@@ -96,6 +96,7 @@ export default function Home() {
             ref={inputRef}
             className="mb-3"
             input={input}
+            isRecording={isRecording}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}
             handleMicClick={handleMicClick}

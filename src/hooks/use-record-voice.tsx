@@ -7,22 +7,21 @@ export const useRecordVoice = () => {
     null,
   );
   const [text, setText] = useState<string>("");
-
-  const [recording, setRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   const chunks = useRef([]);
 
   const startRecording = () => {
     if (mediaRecorder) {
       (mediaRecorder as MediaRecorder).start();
-      setRecording(true);
+      setIsRecording(true);
     }
   };
 
   const stopRecording = () => {
     if (mediaRecorder) {
       (mediaRecorder as MediaRecorder).stop();
-      setRecording(false);
+      setIsRecording(false);
     }
   };
 
@@ -65,7 +64,7 @@ export const useRecordVoice = () => {
   };
 
   const handleClick = (inputRef: React.RefObject<HTMLInputElement>) => {
-    if (!recording) {
+    if (!isRecording) {
       startRecording();
     } else {
       stopRecording();
@@ -84,5 +83,5 @@ export const useRecordVoice = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- run only once on mount to get the media stream
 
-  return { recording, handleClick, text };
+  return { isRecording, handleClick, text };
 };

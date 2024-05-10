@@ -11,19 +11,25 @@ const buttons = [
 ];
 
 type Props = {
-  input: string;
-  handleSubmit: (
-    e: FormEvent<HTMLFormElement>,
-    chatRequestOptions?: ChatRequestOptions | undefined,
-  ) => void;
-  handleInputChange: (e: ChangeEvent<any> | ChangeEvent<any>) => void;
   className?: string;
+  input: string;
+  isRecording: boolean;
+  handleInputChange: (e: ChangeEvent<any> | ChangeEvent<any>) => void;
   handleMicClick: () => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void; // Add closing parenthesis here
+  chatRequestOptions?: ChatRequestOptions | undefined;
 };
 
 const ChatForm = forwardRef<HTMLInputElement, Props>(
   (
-    { input, handleSubmit, handleInputChange, className, handleMicClick },
+    {
+      className,
+      input,
+      isRecording,
+      handleInputChange,
+      handleSubmit,
+      handleMicClick,
+    },
     ref,
   ) => {
     return (
@@ -37,6 +43,9 @@ const ChatForm = forwardRef<HTMLInputElement, Props>(
             placeholder="Ask for opportunities"
             className="h-full w-full bg-transparent py-3 outline-none"
           />
+          {isRecording && (
+            <div className="h-4 w-4 animate-pulse rounded-full bg-red-400" />
+          )}
           <div className="flex w-fit items-center gap-1">
             <button type="submit">
               <Icon type="send" />
