@@ -23,7 +23,7 @@ export const useOnDrop = (messages: Message[], setMessages: Function) => {
       const base64Data = await convertToBase64(file);
       const base64Image = `data:image/jpeg;base64,${base64Data?.toString().split(",")[1]}`;
 
-      const response = await fetch("/api/assistant/image-transcribe", {
+      await fetch("/api/assistant/image-transcribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

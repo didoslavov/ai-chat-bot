@@ -4,12 +4,6 @@ import React, { forwardRef, ChangeEvent, FormEvent } from "react";
 import Icon from "./ui/icon";
 import { ChatRequestOptions } from "ai";
 
-const buttons = [
-  { id: Date.now().toString(), type: "send" },
-  { id: (Date.now() + 1000).toString(), type: "mic" },
-  { id: (Date.now() + 2000).toString(), type: "img" },
-];
-
 type Props = {
   className?: string;
   input: string;

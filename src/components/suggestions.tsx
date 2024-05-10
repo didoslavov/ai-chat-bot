@@ -23,7 +23,7 @@ function Suggestions({
 
   useScrollBlur(scrollContainer);
 
-  //* This workround is to prevent the suggestions from being fetched multiple times when the message is streamed
+  //* This workround is to prevent the suggestions from being fetched on every chunk when message is streamed
   useEffect(() => {
     if (!isPrerendered) {
       fetchSuggestions(message).then((data) => {
