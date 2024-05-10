@@ -10,7 +10,7 @@ import { useRecordVoice } from "@/hooks/use-record-voice";
 import Container from "./ui/container";
 import Message from "./ui/message";
 import Dropzone from "react-dropzone";
-import { useOnDrop } from "@/hooks/use-on-drop";
+import { useOnDrop } from "@/hooks/use-on-img-drop";
 import Icon from "./ui/icon";
 
 const defaultMessages: IMessage[] = [
