@@ -7,27 +7,41 @@ export const useRecordVoice = () => {
     null,
   );
   const [text, setText] = useState<string>("");
-  const [isRecording, setIsRecording] = useState(false);
+
+  const [recording, setRecording] = useState(false);
 
   const chunks = useRef([]);
 
   const startRecording = () => {
     if (mediaRecorder) {
       (mediaRecorder as MediaRecorder).start();
-      setIsRecording(true);
+      setRecording(true);
     }
   };
 
   const stopRecording = () => {
     if (mediaRecorder) {
       (mediaRecorder as MediaRecorder).stop();
-      setIsRecording(false);
+      setRecording(false);
     }
   };
 
-  const getTextFromAudio = (base64data: string | null) => {
-    if (base64data) {
-      setText(base64data);
+  const getText = async (base64data: BlobToBase64Callback) => {
+    try {
+      const response = await fetch("/api/assistant/speech-to-text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          audio: base64data,
+        }),
+      }).then((res) => res.json());
+      const { text } = response;
+
+      setText(text);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -44,17 +58,14 @@ export const useRecordVoice = () => {
 
     mediaRecorder.onstop = () => {
       const audioBlob: Blob = new Blob(chunks.current, { type: "audio/wav" });
-      blobToBase64(
-        audioBlob,
-        getTextFromAudio as unknown as BlobToBase64Callback,
-      );
+      blobToBase64(audioBlob, getText as unknown as BlobToBase64Callback); // Change the type of getText to unknown first
     };
 
     setMediaRecorder(mediaRecorder as MediaRecorder | null);
   };
 
   const handleClick = (inputRef: React.RefObject<HTMLInputElement>) => {
-    if (!isRecording) {
+    if (!recording) {
       startRecording();
     } else {
       stopRecording();
@@ -73,5 +84,5 @@ export const useRecordVoice = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- run only once on mount to get the media stream
 
-  return { recording: isRecording, handleClick, text };
+  return { recording, handleClick, text };
 };
