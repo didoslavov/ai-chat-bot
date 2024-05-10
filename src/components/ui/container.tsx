@@ -5,7 +5,7 @@ const Container = React.forwardRef<
   { children: React.ReactNode; className?: string }
 >(({ children, className }, ref) => {
   return (
-    <div ref={ref} className={`mx-auto max-w-[1440px] px-28 py-8 ${className}`}>
+    <div ref={ref} className={`mx-auto max-w-[1440px] ${className}`}>
       {children}
     </div>
   );

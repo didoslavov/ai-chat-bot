@@ -10,12 +10,16 @@ const icons = {
   send: sendIcon,
 };
 
-function Logo({ type }: { type: IconType }) {
+function Icon({ type, className }: { type: IconType; className?: string }) {
   return (
     <div className="mx-auto cursor-pointer">
-      <Image className="max-w-5" src={icons[type]} alt="Chat icon" />
+      <Image
+        className={`max-w-5 ${className}`}
+        src={icons[type]}
+        alt="Chat icon"
+      />
     </div>
   );
 }
 
-export default Logo;
+export default Icon;

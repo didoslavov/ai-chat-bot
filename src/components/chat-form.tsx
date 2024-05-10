@@ -18,6 +18,7 @@ type Props = {
   handleMicClick: () => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void; // Add closing parenthesis here
   chatRequestOptions?: ChatRequestOptions | undefined;
+  openDropZone: () => void;
 };
 
 const ChatForm = forwardRef<HTMLInputElement, Props>(
@@ -29,6 +30,7 @@ const ChatForm = forwardRef<HTMLInputElement, Props>(
       handleInputChange,
       handleSubmit,
       handleMicClick,
+      openDropZone,
     },
     ref,
   ) => {
@@ -53,7 +55,7 @@ const ChatForm = forwardRef<HTMLInputElement, Props>(
             <button onClick={handleMicClick}>
               <Icon type="mic" />
             </button>
-            <button>
+            <button onClick={openDropZone}>
               <Icon type="img" />
             </button>
           </div>
