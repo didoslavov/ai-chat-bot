@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Message from "./message";
+import Message from "./ui/message";
 import { Message as IMessage } from "ai/react";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { fetchSuggestions } from "@/lib/fetch-suggestions";
@@ -15,7 +15,7 @@ function Suggestions({
   onSuggestionClick: (s: string) => void;
 }) {
   const scrollContainer = useRef<HTMLDivElement>(null);
-  const [prerendered, setPrerendered] = useState(false);
+  const [isPrerendered, setIsPrerendered] = useState(false);
   const [suggestions, setSuggestions] = useLocalStorage<string[]>(
     "suggestions",
     [],
@@ -23,18 +23,18 @@ function Suggestions({
 
   useScrollBlur(scrollContainer);
 
-  // This workround is to prevent the suggestions from being fetched multiple times when the message changes
+  //* This workround is to prevent the suggestions from being fetched multiple times when the message is streamed
   useEffect(() => {
-    if (!prerendered) {
+    if (!isPrerendered) {
       fetchSuggestions(message).then((data) => {
         setSuggestions(data.suggestions[0].split(" | "));
-        setPrerendered(true);
+        setIsPrerendered(true);
       });
     }
-  }, [prerendered]); // eslint-disable-line react-hooks/exhaustive-deps -- only want to run when prerendered change
+  }, [isPrerendered]); // eslint-disable-line react-hooks/exhaustive-deps -- only want to run when prerendered change
 
   useEffect(() => {
-    setPrerendered(false);
+    setIsPrerendered(false);
   }, [message]);
 
   return (

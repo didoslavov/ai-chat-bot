@@ -1,13 +1,14 @@
 "use client";
 
 import ChatForm from "@/components/chat-form";
-import Container from "@/components/container";
-import Message from "@/components/message";
 import Suggestions from "./suggestions";
 import { Message as IMessage, useChat } from "ai/react";
 import { useEffect, useRef, useState } from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
-import TypingIndicator from "./typing-indicator";
+import TypingIndicator from "./ui/typing-indicator";
+import { useRecordVoice } from "@/hooks/use-record-voice";
+import Container from "./ui/container";
+import Message from "./ui/message";
 
 const defaultMessages: IMessage[] = [
   {
@@ -25,12 +26,12 @@ const defaultMessages: IMessage[] = [
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const { handleClick, text } = useRecordVoice();
   const [localMessages, setLocalMessages] = useLocalStorage<IMessage[]>(
     "chatMessages",
     [],
   );
-
   const {
     messages,
     input,
@@ -43,6 +44,7 @@ export default function Home() {
     initialMessages: localMessages.length ? localMessages : defaultMessages,
   });
 
+  const handleMicClick = () => handleClick(inputRef);
   const onSuggestionClick = (s: string) => {
     setInput(s);
 
@@ -50,6 +52,12 @@ export default function Home() {
       inputRef.current.focus();
     }
   };
+
+  useEffect(() => {
+    if (text) {
+      setInput(text);
+    }
+  }, [text]); // eslint-disable-line react-hooks/exhaustive-deps -- only want to run when text changes
 
   useEffect(() => {
     setLocalMessages(messages);
@@ -62,10 +70,10 @@ export default function Home() {
   }, [messages]); // eslint-disable-line react-hooks/exhaustive-deps -- only want to run when messages change
 
   useEffect(() => {
-    setMounted(true);
+    setIsMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!isMounted) return null;
 
   return (
     <>
@@ -90,6 +98,7 @@ export default function Home() {
             input={input}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}
+            handleMicClick={handleMicClick}
           />
           <Suggestions
             message={messages}
