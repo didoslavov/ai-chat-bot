@@ -25,7 +25,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, SetValue<T>] {
     }
   }, [storedValue, key, isClient]);
 
-  return [storedValue, setStoredValue] as const;
+  return [storedValue, setStoredValue];
 }
 
 export default useLocalStorage;
